@@ -48,9 +48,8 @@ Documentation:<br>
   
   typedef enum {  <br>
     SLLS_ALL = 0, <br>
-    SLLS_MINOR = 21, <br>
-    SLLS_MEDIUM = 35, <br>
     SLLS_MAJOR = 45, <br>
+    SLLS_MINOR = 65, <br>
     SLLS_NONE = 1000, <br>
     SLLS_DEFAULT = SLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR<br>
   } GRLoggerLevelSetting; <br>
