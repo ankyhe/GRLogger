@@ -63,6 +63,7 @@ static GRLogger *gLogger = nil;
 		case SLL_DEBUG:   return @"DEBUG";break;
 		case SLL_WARNING: return @"WARN";break;
 		case SLL_ERROR:   return @"ERROR";break;
+    case SLL_TRACE0:  return @"TRACE0";break;
 		case SLL_FATAL:   return @"FATAL";break;
 		default:          return @"NOLEVE"; break;
 	}
@@ -103,7 +104,7 @@ static GRLogger *gLogger = nil;
 {
   @synchronized(self) {
     if (logLevelSetting == SLLS_ALL || logLevelSetting == SLLS_MINOR ||
-        logLevelSetting == SLLS_MEDIUM || logLevelSetting == SLLS_MAJOR ||
+        logLevelSetting == SLLS_MAJOR ||
         logLevelSetting == SLLS_NONE || logLevelSetting == SLLS_DEFAULT) {
       logLevelSetting_ = logLevelSetting; 
     } else {
@@ -171,6 +172,13 @@ static GRLogger *gLogger = nil;
        inLine:(int)lineNumber
 {
 	[self log:msg withLevel:SLL_ERROR inFile:fileName inLine:lineNumber];
+}
+
+- (void)trace0:(NSString *)msg 
+       inFile:(NSString *)fileName 
+       inLine:(int)lineNumber
+{
+  [self log:msg withLevel:SLL_TRACE0 inFile:fileName inLine:lineNumber];   
 }
 
 - (void)fatal:(NSString *)msg 

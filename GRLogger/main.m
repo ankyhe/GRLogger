@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     ERROR(@"error");
     FATAL(@"fatal");
     LOG(SLL_TINY, @"tiny");
+    TRACE0(@"Ready to start");
     foo();
     return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }

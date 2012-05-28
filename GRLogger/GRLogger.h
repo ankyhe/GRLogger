@@ -32,6 +32,9 @@ inLine:__LINE__]
 #define ERROR(format, ...) [[GRLogger sharedGRLogger] error:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]
+#define TRACE0(format, ...) [[GRLogger sharedGRLogger] trace0:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
+inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+inLine:__LINE__]
 #define FATAL(format, ...) [[GRLogger sharedGRLogger] fatal:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]
@@ -60,6 +63,9 @@ inLine:__LINE__];}
 #define ERROR(format, ...) while(0) {[[GRLogger sharedGRLogger] error:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__];}
+#define TRACE0(format, ...) while(0) {[[GRLogger sharedGRLogger] trace0:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
+inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+inLine:__LINE__];}
 #define FATAL(format, ...) while(0) {[[GRLogger sharedGRLogger] fatal:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__];}
@@ -76,14 +82,14 @@ typedef enum {
 	SLL_INFO    = 50,
 	SLL_WARNING = 60,
 	SLL_ERROR   = 70,
+  SLL_TRACE0  = 75,
 	SLL_FATAL   = 80
 } GRLoggerLevel;
 
 typedef enum {
-	SLLS_ALL = 0, // should be smaller than all GRLoggerLevel
-	SLLS_MINOR = 21, // should be larger than SLL_DETAIL
-	SLLS_MEDIUM = 35, // should be larger than SLL_RETURN
+	SLLS_ALL = 0, // should be smaller than all GRLoggerLevel	
 	SLLS_MAJOR = 45, // should be larger than SLL_DEBUG
+  SLLS_MINOR = 65,
 	SLLS_NONE = 1000, // should be larger than all
   SLLS_DEFAULT = SLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR
 } GRLoggerLevelSetting;
@@ -117,6 +123,9 @@ typedef enum {
       inFile:(NSString *)fileName 
       inLine:(int)lineNumber;
 - (void)error:(NSString *)msg 
+       inFile:(NSString *)fileName 
+       inLine:(int)lineNumber;
+- (void)trace0:(NSString *)msg 
        inFile:(NSString *)fileName 
        inLine:(int)lineNumber;
 - (void)fatal:(NSString *)msg 
