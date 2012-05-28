@@ -32,6 +32,9 @@ inLine:__LINE__]
 #define ERROR(format, ...) [[GRLogger sharedGRLogger] error:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]
+#define FATAL(format, ...) [[GRLogger sharedGRLogger] fatal:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
+inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+inLine:__LINE__]
 #define SETLOGLEVEL(level) [[GRLogger sharedGRLogger] setLogLevelSetting: level] 
 
 #else // defined __SELF_DEFING_CLOSEGRLOGGER__
@@ -55,6 +58,9 @@ inLine:__LINE__];}
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__];}
 #define ERROR(format, ...) while(0) {[[GRLogger sharedGRLogger] error:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
+inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+inLine:__LINE__];}
+#define FATAL(format, ...) while(0) {[[GRLogger sharedGRLogger] fatal:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__];}
 #define SETLOGLEVEL(level) while(0) {[[GRLogger sharedGRLogger] setLogLevelSetting: level];}
@@ -97,22 +103,25 @@ typedef enum {
 
 - (void)enter:(NSString *)msg 
        inFile:(NSString *)fileName 
-       inLine:(int)lineNr;
+       inLine:(int)lineNumber;
 - (void)retrn:(NSString *)msg 
        inFile:(NSString *)fileName 
-       inLine:(int)lineNr;
+       inLine:(int)lineNumber;
 - (void)info:(NSString *)msg 
       inFile:(NSString *)fileName 
-      inLine:(int)lineNr;
+      inLine:(int)lineNumber;
 - (void)debug:(NSString *)msg 
        inFile:(NSString *)fileName 
-       inLine:(int)lineNr;
+       inLine:(int)lineNumber;
 - (void)warn:(NSString *)msg 
       inFile:(NSString *)fileName 
-      inLine:(int)lineNr;
+      inLine:(int)lineNumber;
 - (void)error:(NSString *)msg 
        inFile:(NSString *)fileName 
-       inLine:(int)lineNr;
+       inLine:(int)lineNumber;
+- (void)fatal:(NSString *)msg 
+       inFile:(NSString *)fileName 
+       inLine:(int)lineNumber;
 
 + (GRLogger *)sharedGRLogger;
 + (NSString *)levelName:(GRLoggerLevel)level;

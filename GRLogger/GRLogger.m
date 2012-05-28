@@ -9,26 +9,46 @@ static GRLogger *gLogger = nil;
 @implementation GRLogger
 
 #pragma -
-#pragma mark Class Method
-
-+ (void)initialize 
-{
-  if (self == [GRLogger class]) {
-    [self sharedGRLogger]; // just init GRLogger
-  }
-}
+#pragma mark Singleton
 
 + (GRLogger *)sharedGRLogger
 {
   if (gLogger == nil) {
 		@synchronized(self) {
       if (gLogger == nil) {
-        gLogger = [[GRLogger alloc]init];
+        gLogger = [[super allocWithZone:NULL]init];
       }
     }
 	}
 	return gLogger;
 }
+
++ (id)allocWithZone:(NSZone *)zone
+{
+  return [[self sharedGRLogger] retain];
+}
+- (id)copyWithZone:(NSZone *)zone
+{
+  return self;
+}
+- (id)retain
+{
+  return self;
+}
+- (NSUInteger)retainCount
+{
+  return NSUIntegerMax;
+}
+
+- (oneway void)release {}
+
+- (id)autorelease {
+  return self;
+}
+
+
+#pragma -
+#pragma mark Class Method
 
 + (NSString *)levelName:(GRLoggerLevel)level {
 	switch (level) {
@@ -61,12 +81,11 @@ static GRLogger *gLogger = nil;
 	return [self initWithLogLevel:SLLS_DEFAULT];
 }
 
-#ifdef no-objc-arc
 - (void)dealloc
 {
 	[super dealloc];
 }
-#endif
+
 
 - (GRLoggerLevelSetting)logLevelSetting
 {
@@ -109,44 +128,51 @@ static GRLogger *gLogger = nil;
 
 - (void)enter:(NSString *)msg 
        inFile:(NSString *)fileName 
-       inLine:(int)lineNr
+       inLine:(int)lineNumber
 {
-	[self log:msg withLevel:SLL_ENTER inFile:fileName inLine:lineNr];
+	[self log:msg withLevel:SLL_ENTER inFile:fileName inLine:lineNumber];
 }
 
 - (void)retrn:(NSString *)msg 
        inFile:(NSString *)fileName 
-       inLine:(int)lineNr
+       inLine:(int)lineNumber
 {
-	[self log:msg withLevel:SLL_RETURN inFile:fileName inLine:lineNr];
+	[self log:msg withLevel:SLL_RETURN inFile:fileName inLine:lineNumber];
 }
 
 - (void)info:(NSString *)msg 
       inFile:(NSString *)fileName 
-      inLine:(int)lineNr
+      inLine:(int)lineNumber
 {
-	[self log:msg withLevel:SLL_INFO inFile:fileName inLine:lineNr];
+	[self log:msg withLevel:SLL_INFO inFile:fileName inLine:lineNumber];
 }
 
 - (void)debug:(NSString *)msg 
        inFile:(NSString *)fileName 
-       inLine:(int)lineNr
+       inLine:(int)lineNumber
 {
-	[self log:msg withLevel:SLL_DEBUG inFile:fileName inLine:lineNr];
+	[self log:msg withLevel:SLL_DEBUG inFile:fileName inLine:lineNumber];
 }
 
 - (void)warn:(NSString *)msg 
       inFile:(NSString *)fileName 
-      inLine:(int)lineNr
+      inLine:(int)lineNumber
 {
-	[self log:msg withLevel:SLL_WARNING inFile:fileName inLine:lineNr];
+	[self log:msg withLevel:SLL_WARNING inFile:fileName inLine:lineNumber];
 }
 
 - (void)error:(NSString *)msg 
        inFile:(NSString *)fileName 
-       inLine:(int)lineNr
+       inLine:(int)lineNumber
 {
-	[self log:msg withLevel:SLL_ERROR inFile:fileName inLine:lineNr];
+	[self log:msg withLevel:SLL_ERROR inFile:fileName inLine:lineNumber];
+}
+
+- (void)fatal:(NSString *)msg 
+       inFile:(NSString *)fileName 
+       inLine:(int)lineNumber
+{
+	[self log:msg withLevel:SLL_FATAL inFile:fileName inLine:lineNumber];
 }
 
 @end

@@ -264,6 +264,7 @@
 				FD5835371573D04000D1E551 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

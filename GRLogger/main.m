@@ -12,10 +12,23 @@
 
 #import "GRLogger.h"
 
+int foo()
+{
+  ENTER(@"foo");
+  RETURN(10, @"foo");
+}
+
 int main(int argc, char *argv[])
 {
   @autoreleasepool {
-    INFO(@"here %d", 3);
+    SETLOGLEVEL(SLLS_ALL);
+    INFO(@"info");
+    DBG(@"debug value is %d", 3);
+    WARN(@"warning");
+    ERROR(@"error");
+    FATAL(@"fatal");
+    LOG(SLL_TINY, @"tiny");
+    foo();
     return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }
 }
