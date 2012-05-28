@@ -63,6 +63,4 @@ Documentation:<br>
     </ul>
 
 TODO:
-  (1) Support ARC -- Currently you just need to remove methods: release, autorelease, retain in GRLogger.m
-  and it can used in ARC<br>
-  (2) Support log into files
+  (1) Support log into files

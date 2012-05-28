@@ -31,10 +31,13 @@ static GRLogger *gLogger = nil;
 {
   return self;
 }
+
+#if ! __has_feature(objc_arc)
 - (id)retain
 {
   return self;
 }
+
 - (NSUInteger)retainCount
 {
   return NSUIntegerMax;
@@ -45,7 +48,7 @@ static GRLogger *gLogger = nil;
 - (id)autorelease {
   return self;
 }
-
+#endif
 
 #pragma -
 #pragma mark Class Method
@@ -81,10 +84,12 @@ static GRLogger *gLogger = nil;
 	return [self initWithLogLevel:SLLS_DEFAULT];
 }
 
+#if ! __has_feature(objc_arc)
 - (void)dealloc
 {
 	[super dealloc];
 }
+#endif
 
 
 - (GRLoggerLevelSetting)logLevelSetting
