@@ -1,0 +1,271 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FD5835221573D04000D1E551 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5835211573D04000D1E551 /* UIKit.framework */; };
+		FD5835241573D04000D1E551 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5835231573D04000D1E551 /* Foundation.framework */; };
+		FD5835261573D04000D1E551 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5835251573D04000D1E551 /* CoreGraphics.framework */; };
+		FD58352C1573D04000D1E551 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD58352A1573D04000D1E551 /* InfoPlist.strings */; };
+		FD58352E1573D04000D1E551 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD58352D1573D04000D1E551 /* main.m */; };
+		FD5835321573D04000D1E551 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5835311573D04000D1E551 /* AppDelegate.m */; };
+		FD58353A1573D05E00D1E551 /* GRLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5835391573D05E00D1E551 /* GRLogger.m */; };
+		FD58353C1573D85000D1E551 /* License in Resources */ = {isa = PBXBuildFile; fileRef = FD58353B1573D85000D1E551 /* License */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FD58351D1573D04000D1E551 /* GRLogger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GRLogger.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD5835211573D04000D1E551 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FD5835231573D04000D1E551 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FD5835251573D04000D1E551 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FD5835291573D04000D1E551 /* GRLogger-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GRLogger-Info.plist"; sourceTree = "<group>"; };
+		FD58352B1573D04000D1E551 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FD58352D1573D04000D1E551 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FD58352F1573D04000D1E551 /* GRLogger-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GRLogger-Prefix.pch"; sourceTree = "<group>"; };
+		FD5835301573D04000D1E551 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		FD5835311573D04000D1E551 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FD5835381573D05E00D1E551 /* GRLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRLogger.h; sourceTree = "<group>"; };
+		FD5835391573D05E00D1E551 /* GRLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRLogger.m; sourceTree = "<group>"; };
+		FD58353B1573D85000D1E551 /* License */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FD58351A1573D04000D1E551 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD5835221573D04000D1E551 /* UIKit.framework in Frameworks */,
+				FD5835241573D04000D1E551 /* Foundation.framework in Frameworks */,
+				FD5835261573D04000D1E551 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FD5835121573D04000D1E551 = {
+			isa = PBXGroup;
+			children = (
+				FD5835271573D04000D1E551 /* GRLogger */,
+				FD5835201573D04000D1E551 /* Frameworks */,
+				FD58351E1573D04000D1E551 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FD58351E1573D04000D1E551 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FD58351D1573D04000D1E551 /* GRLogger.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FD5835201573D04000D1E551 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FD5835211573D04000D1E551 /* UIKit.framework */,
+				FD5835231573D04000D1E551 /* Foundation.framework */,
+				FD5835251573D04000D1E551 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FD5835271573D04000D1E551 /* GRLogger */ = {
+			isa = PBXGroup;
+			children = (
+				FD5835381573D05E00D1E551 /* GRLogger.h */,
+				FD5835391573D05E00D1E551 /* GRLogger.m */,
+				FD58353B1573D85000D1E551 /* License */,
+				FD5835301573D04000D1E551 /* AppDelegate.h */,
+				FD5835311573D04000D1E551 /* AppDelegate.m */,
+				FD5835281573D04000D1E551 /* Supporting Files */,
+			);
+			path = GRLogger;
+			sourceTree = "<group>";
+		};
+		FD5835281573D04000D1E551 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FD5835291573D04000D1E551 /* GRLogger-Info.plist */,
+				FD58352A1573D04000D1E551 /* InfoPlist.strings */,
+				FD58352D1573D04000D1E551 /* main.m */,
+				FD58352F1573D04000D1E551 /* GRLogger-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FD58351C1573D04000D1E551 /* GRLogger */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD5835351573D04000D1E551 /* Build configuration list for PBXNativeTarget "GRLogger" */;
+			buildPhases = (
+				FD5835191573D04000D1E551 /* Sources */,
+				FD58351A1573D04000D1E551 /* Frameworks */,
+				FD58351B1573D04000D1E551 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GRLogger;
+			productName = GRLogger;
+			productReference = FD58351D1573D04000D1E551 /* GRLogger.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FD5835141573D04000D1E551 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = FD5835171573D04000D1E551 /* Build configuration list for PBXProject "GRLogger" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FD5835121573D04000D1E551;
+			productRefGroup = FD58351E1573D04000D1E551 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FD58351C1573D04000D1E551 /* GRLogger */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FD58351B1573D04000D1E551 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD58352C1573D04000D1E551 /* InfoPlist.strings in Resources */,
+				FD58353C1573D85000D1E551 /* License in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FD5835191573D04000D1E551 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD58352E1573D04000D1E551 /* main.m in Sources */,
+				FD5835321573D04000D1E551 /* AppDelegate.m in Sources */,
+				FD58353A1573D05E00D1E551 /* GRLogger.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FD58352A1573D04000D1E551 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FD58352B1573D04000D1E551 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FD5835331573D04000D1E551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FD5835341573D04000D1E551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FD5835361573D04000D1E551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GRLogger/GRLogger-Prefix.pch";
+				INFOPLIST_FILE = "GRLogger/GRLogger-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		FD5835371573D04000D1E551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GRLogger/GRLogger-Prefix.pch";
+				INFOPLIST_FILE = "GRLogger/GRLogger-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FD5835171573D04000D1E551 /* Build configuration list for PBXProject "GRLogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD5835331573D04000D1E551 /* Debug */,
+				FD5835341573D04000D1E551 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD5835351573D04000D1E551 /* Build configuration list for PBXNativeTarget "GRLogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD5835361573D04000D1E551 /* Debug */,
+				FD5835371573D04000D1E551 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FD5835141573D04000D1E551 /* Project object */;
+}
