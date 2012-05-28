@@ -2,16 +2,16 @@ GRLogger
 ========
 
 I started my iOS dev (it calls iPhone dev then) from May, 2009.  I composed a logger utility for debugging
-and tracing.  I used them within 2 iOS apps and it give me a lot of help.  Today I want to open source it
+and tracing.  I used them within 2 iOS apps and it gives me a lot of help.  Today I want to open source it
 to public.  
 
 License: MIT
 
-Install:
+Install:<br>
   (1) Add GRLogger.h, GRLogger.m and License into your project
   (2) Sample -- Please refer to main.m  
+    
     #import "GRLogger.h"
-      
     int foo()
     {
       ENTER(@"foo");
@@ -43,22 +43,22 @@ Install:
     2012-05-29 01:10:42.873 GRLogger[42610:f803] FILE:main.m LINE:17 [ENTER] foo
     2012-05-29 01:10:42.874 GRLogger[42610:f803] FILE:main.m LINE:18 [RETURN] foo
     
-Documentation:
+Documentation:<br>
   (1) SETLOGLEVEL(SLLS_ALL); 
   
-  typedef enum {
-    SLLS_ALL = 0, 
-    SLLS_MINOR = 21, 
-    SLLS_MEDIUM = 35,
-    SLLS_MAJOR = 45,
-    SLLS_NONE = 1000,
-    SLLS_DEFAULT = SLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR
-  } GRLoggerLevelSetting;
+  typedef enum {  <br>
+    SLLS_ALL = 0, <br>
+    SLLS_MINOR = 21, <br>
+    SLLS_MEDIUM = 35, <br>
+    SLLS_MAJOR = 45, <br>
+    SLLS_NONE = 1000, <br>
+    SLLS_DEFAULT = SLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR<br>
+  } GRLoggerLevelSetting; <br>
   If you set values other than GRLoggerLevelSetting, it uses SLLS_DEFAULT
   Usually we use SLLS_ALL, SLLS_MAJOR (just INFO, WARN, ERROR, FATAL) and SLLS_NONE.
 
   (2) If you want to close GRLogger, you have 2 approaches:
-    (a) SETLOGLEVEL(SLLS_NONE);
-    (b) defined __SELF_DEFING_CLOSEGRLOGGER__ (better than (a))
-
+    <ul>
+     <li>SETLOGLEVEL(SLLS_NONE);</li><li>defined __SELF_DEFING_CLOSEGRLOGGER__ (better) </li>
+    </ul>
       
