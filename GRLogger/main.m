@@ -22,6 +22,9 @@ int main(int argc, char *argv[])
 {
   @autoreleasepool {
     SETLOGLEVEL(SLLS_ALL);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
+      foo();
+    });
     INFO(@"info");
     DBG(@"debug value is %d", 3);
     WARN(@"warning");
@@ -29,7 +32,7 @@ int main(int argc, char *argv[])
     FATAL(@"fatal");
     LOG(SLL_TINY, @"tiny");
     TRACE0(@"Ready to start");
-    foo();
+    
     return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }
 }

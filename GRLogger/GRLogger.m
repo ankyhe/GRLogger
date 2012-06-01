@@ -1,5 +1,10 @@
 #import "GRLogger.h"
 
+
+#define GRLOGGER_EXIT exit
+
+static int const kPTHREAD_RELATED_EXIT = 1;
+
 static GRLogger *gLogger = nil;
 
 @interface GRLogger()
@@ -76,6 +81,11 @@ static GRLogger *gLogger = nil;
 {
 	if ((self = [super init])) {
     logLevelSetting_ = levelSetting;
+    if (pthread_rwlock_init(&logLevelRWLock_, NULL)) {
+      // error
+      NSLog(@"Fail to init rwlock in GRLogger");
+      GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+    }
 	}
 	return self;
 }
@@ -85,37 +95,52 @@ static GRLogger *gLogger = nil;
 	return [self initWithLogLevel:SLLS_DEFAULT];
 }
 
-#if ! __has_feature(objc_arc)
+
 - (void)dealloc
 {
+  if (pthread_rwlock_destroy(&logLevelRWLock_)) {
+    // error
+    NSLog(@"Fail to destroy rwlock in GRLogger");
+    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+  }
 	[super dealloc];
 }
-#endif
+
 
 
 - (GRLoggerLevelSetting)logLevelSetting
 {
-  @synchronized(self) {
-    return logLevelSetting_;
+  GRLoggerLevelSetting ret = SLLS_DEFAULT;
+  if(pthread_rwlock_rdlock(&logLevelRWLock_)) {
+    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
   }
+  ret = logLevelSetting_;
+  if (pthread_rwlock_unlock(&logLevelRWLock_)) {
+    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+  }
+  return ret;
 }
 
 - (void)setLogLevelSetting:(GRLoggerLevelSetting)logLevelSetting
 {
-  @synchronized(self) {
-    if (logLevelSetting == SLLS_ALL || logLevelSetting == SLLS_MINOR ||
-        logLevelSetting == SLLS_MAJOR ||
-        logLevelSetting == SLLS_NONE || logLevelSetting == SLLS_DEFAULT) {
-      logLevelSetting_ = logLevelSetting; 
-    } else {
-      logLevelSetting_ = SLLS_DEFAULT;
-    }
+  if (pthread_rwlock_wrlock(&logLevelRWLock_)) {
+    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+  }
+  if (logLevelSetting == SLLS_ALL || logLevelSetting == SLLS_MINOR ||
+      logLevelSetting == SLLS_MAJOR ||
+      logLevelSetting == SLLS_NONE || logLevelSetting == SLLS_DEFAULT) {
+    logLevelSetting_ = logLevelSetting; 
+  } else {
+    logLevelSetting_ = SLLS_DEFAULT;
+  }
+  if (pthread_rwlock_unlock(&logLevelRWLock_)) {
+    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
   }
 }
 
 - (void)resetLogLevelSetting 
 {
-  logLevelSetting_ = SLLS_DEFAULT;
+  [self setLogLevelSetting:SLLS_DEFAULT];
 }
 
 #pragma mark -
@@ -126,10 +151,16 @@ static GRLogger *gLogger = nil;
      inFile:(NSString *)fileName 
      inLine:(int)lineNumber
 {
+  if(pthread_rwlock_rdlock(&logLevelRWLock_)) {
+    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+  }
 	if (level > logLevelSetting_)	{
 		NSLog(@"FILE:%@ LINE:%d [%@] %@", fileName, lineNumber,
           [GRLogger levelName:level], msg);
 	}
+  if (pthread_rwlock_unlock(&logLevelRWLock_)) {
+    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+  }
 }
 
 - (void)enter:(NSString *)msg 

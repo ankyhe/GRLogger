@@ -7,6 +7,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <pthread.h>
 
 #ifndef __SELF_DEFING_CLOSEGRLOGGER__
 
@@ -97,6 +98,7 @@ typedef enum {
 @interface GRLogger : NSObject {
  @private
 	GRLoggerLevelSetting logLevelSetting_;
+  pthread_rwlock_t logLevelRWLock_;
 }
 
 @property (atomic, assign) GRLoggerLevelSetting logLevelSetting;
