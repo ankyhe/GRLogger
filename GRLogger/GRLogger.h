@@ -15,9 +15,15 @@
 withLevel:level \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]
+#define ENTERFUNC() [[GRLogger sharedGRLogger] enter:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] \
+inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+inLine:__LINE__]
 #define ENTER(format, ...) [[GRLogger sharedGRLogger] enter:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]
+#define RETURNFUNC(returnValue) [[GRLogger sharedGRLogger] retrn:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] \
+inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+inLine:__LINE__]; return (returnValue)
 #define RETURN(returnValue, format, ...) [[GRLogger sharedGRLogger] retrn:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]; return (returnValue)
@@ -46,9 +52,15 @@ inLine:__LINE__]
 withLevel:level \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__];}
+#define ENTERFUNC() while(0) {[[GRLogger sharedGRLogger] enter:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] \
+inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+inLine:__LINE__];}
 #define ENTER(format, ...)      while(0) {[[GRLogger sharedGRLogger] enter:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__];}
+#define RETURNFUNC(returnValue) while(0) {[[GRLogger sharedGRLogger] retrn:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] \
+inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
+inLine:__LINE__];} return (returnValue)
 #define RETURN(returnValue, format, ...) while(0) {[[GRLogger sharedGRLogger] retrn:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__];}return (returnValue)
@@ -75,24 +87,24 @@ inLine:__LINE__];}
 #endif // __SELF_DEFING_CLOSEGRLOGGER__
 
 typedef enum {
-	SLL_TINY    = 10,
-	SLL_DETAIL  = 20,
-	SLL_ENTER   = 30,
-	SLL_RETURN  = 31,
-	SLL_DEBUG   = 40,
-	SLL_INFO    = 50,
-	SLL_WARNING = 60,
-	SLL_ERROR   = 70,
-  SLL_TRACE0  = 75,
-	SLL_FATAL   = 80
+	kSLL_TINY    = 10,
+	kSLL_DETAIL  = 20,
+	kSLL_ENTER   = 30,
+	kSLL_RETURN  = 31,
+	kSLL_DEBUG   = 40,
+	kSLL_INFO    = 50,
+	kSLL_WARNING = 60,
+	kSLL_ERROR   = 70,
+  kSLL_TRACE0  = 75,
+	kSLL_FATAL   = 80
 } GRLoggerLevel;
 
 typedef enum {
-	SLLS_ALL = 0, // should be smaller than all GRLoggerLevel	
-	SLLS_MAJOR = 45, // should be larger than SLL_DEBUG
-  SLLS_MINOR = 65,
-	SLLS_NONE = 1000, // should be larger than all
-  SLLS_DEFAULT = SLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR
+	kSLLS_ALL = 0, // should be smaller than all GRLoggerLevel	
+	kSLLS_MAJOR = 45, // should be larger than SLL_DEBUG
+  kSLLS_MINOR = 65,
+	kSLLS_NONE = 1000, // should be larger than all
+  kSLLS_DEFAULT = kSLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR
 } GRLoggerLevelSetting;
 
 @interface GRLogger : NSObject {

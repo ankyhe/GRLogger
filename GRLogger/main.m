@@ -12,25 +12,45 @@
 
 #import "GRLogger.h"
 
+@interface TestClass : NSObject
+- (int)bar;
+@end
+
+@implementation TestClass
+
+- (int)bar 
+{
+  ENTERFUNC();
+  RETURNFUNC(10);
+}
+
+@end
+
 int foo()
 {
-  ENTER(@"foo");
-  RETURN(10, @"foo");
+  ENTERFUNC();
+  RETURNFUNC(10);
 }
 
 int main(int argc, char *argv[])
 {
   @autoreleasepool {
-    SETLOGLEVEL(SLLS_ALL);
+    SETLOGLEVEL(kSLLS_ALL);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
       foo();
+    });
+    SETLOGLEVEL(kSLLS_ALL);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
+      TestClass *tc = [[[TestClass alloc]init]autorelease];
+      int ret = [tc bar];
+      INFO(@"[tc bar] returns %d", ret);
     });
     INFO(@"info");
     DBG(@"debug value is %d", 3);
     WARN(@"warning");
     ERROR(@"error");
     FATAL(@"fatal");
-    LOG(SLL_TINY, @"tiny");
+    LOG(kSLL_TINY, @"tiny");
     TRACE0(@"Ready to start");
     
     return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
