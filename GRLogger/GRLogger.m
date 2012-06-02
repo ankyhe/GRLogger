@@ -30,7 +30,11 @@ static GRLogger *gLogger = nil;
 
 + (id)allocWithZone:(NSZone *)zone
 {
+#if !__has_feature(objc_arc)
   return [[self sharedGRLogger] retain];
+#else 
+  return [self sharedGRLogger];
+#endif
 }
 - (id)copyWithZone:(NSZone *)zone
 {
@@ -103,7 +107,9 @@ static GRLogger *gLogger = nil;
     NSLog(@"Fail to destroy rwlock in GRLogger");
     GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
   }
-	[super dealloc];
+#if !__has_feature(objc_arc)
+  [super dealloc];
+#endif
 }
 
 

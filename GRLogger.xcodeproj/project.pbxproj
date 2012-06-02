@@ -227,6 +227,7 @@
 		FD5835361573D04000D1E551 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GRLogger/GRLogger-Prefix.pch";
 				INFOPLIST_FILE = "GRLogger/GRLogger-Info.plist";
@@ -239,6 +240,7 @@
 		FD5835371573D04000D1E551 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GRLogger/GRLogger-Prefix.pch";
 				INFOPLIST_FILE = "GRLogger/GRLogger-Info.plist";

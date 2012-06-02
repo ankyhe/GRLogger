@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     });
     SETLOGLEVEL(kSLLS_ALL);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
-      TestClass *tc = [[[TestClass alloc]init]autorelease];
+      TestClass *tc = [[TestClass alloc]init];
       int ret = [tc bar];
       INFO(@"[tc bar] returns %d", ret);
     });
