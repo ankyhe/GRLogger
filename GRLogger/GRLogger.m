@@ -1,7 +1,7 @@
 #import "GRLogger.h"
 
 
-#define GRLOGGER_EXIT exit
+#define GRLOGGER_EXIT(x) exit(x)
 
 static int const kPTHREAD_RELATED_EXIT = 1;
 
@@ -18,14 +18,11 @@ static GRLogger *gLogger = nil;
 
 + (GRLogger *)sharedGRLogger
 {
-  if (gLogger == nil) {
-		@synchronized(self) {
-      if (gLogger == nil) {
-        gLogger = [[super allocWithZone:NULL]init];
-      }
-    }
-	}
-	return gLogger;
+  static dispatch_once_t once;
+  dispatch_once(&once, ^{
+    gLogger = [[super allocWithZone:NULL]init];
+  });
+  return gLogger;
 }
 
 + (id)allocWithZone:(NSZone *)zone
