@@ -2,8 +2,8 @@
 //  main.m
 //  GRLogger
 //
-//  Created by He Anky on 12-5-28.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Created by AnkyHe, gerystudio@gmail.com on 12-5-28.
+//  Copyright (c) 2012 Gery Studio. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

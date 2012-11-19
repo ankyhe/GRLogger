@@ -1,13 +1,13 @@
-/**
- *  \file		  GRLogger.h
- *  \brief		GRLogger is used to logger information into console easily
- *  \author		AnkyHe ankyhe@gmail.com
- *  \version  1.0
- *  \date     2012/05/28
- */
+//
+//  GRLogger.h
+//  GRLogger
+//
+//  Created by AnkyHe, gerystudio@gmail.com on 12-5-28.
+//  Copyright (c) 2012 Gery Studio. All rights reserved.
+//
+
 
 #import <Foundation/Foundation.h>
-#import <pthread.h>
 
 #ifndef __SELF_DEFING_CLOSEGRLOGGER__
 
@@ -45,7 +45,7 @@ inLine:__LINE__]
 #define FATAL(format, ...) [[GRLogger sharedGRLogger] fatal:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]
-#define SETLOGLEVEL(level) [[GRLogger sharedGRLogger] setLogLevelSetting: level] 
+#define SETLOGLEVEL(level) [[GRLogger sharedGRLogger] setLogLevelSetting: level]
 
 #else // defined __SELF_DEFING_CLOSEGRLOGGER__
 #define LOG(level, format, ...) while(0) {[[GRLogger sharedGRLogger] log:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
@@ -86,7 +86,7 @@ inLine:__LINE__];}
 
 #endif // __SELF_DEFING_CLOSEGRLOGGER__
 
-typedef enum {
+typedef enum GRLoggerLevel : NSUInteger {
 	kSLL_TINY    = 10,
 	kSLL_DETAIL  = 20,
 	kSLL_ENTER   = 30,
@@ -95,58 +95,53 @@ typedef enum {
 	kSLL_INFO    = 50,
 	kSLL_WARNING = 60,
 	kSLL_ERROR   = 70,
-  kSLL_TRACE0  = 75,
+    kSLL_TRACE0  = 75,
 	kSLL_FATAL   = 80
 } GRLoggerLevel;
 
-typedef enum {
-	kSLLS_ALL = 0, // should be smaller than all GRLoggerLevel	
+typedef enum GRLoggerLevelSetting : NSUInteger {
+	kSLLS_ALL = 0, // should be smaller than all GRLoggerLevel
 	kSLLS_MAJOR = 45, // should be larger than SLL_DEBUG
-  kSLLS_MINOR = 65,
+    kSLLS_MINOR = 65,
 	kSLLS_NONE = 1000, // should be larger than all
-  kSLLS_DEFAULT = kSLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR
+    kSLLS_DEFAULT = kSLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR
 } GRLoggerLevelSetting;
 
-@interface GRLogger : NSObject {
- @private
-	GRLoggerLevelSetting logLevelSetting_;
-  pthread_rwlock_t logLevelRWLock_;
-}
+@interface GRLogger : NSObject
 
 @property (atomic, assign) GRLoggerLevelSetting logLevelSetting;
 
++ (GRLogger *)sharedGRLogger;
 
-- (void)log:(NSString *)msg 
+- (void)log:(NSString *)msg
   withLevel:(GRLoggerLevel)level
-     inFile:(NSString *)fileName 
+     inFile:(NSString *)fileName
      inLine:(int)lineNumber;
 
-- (void)enter:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)enter:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber;
-- (void)retrn:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)retrn:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber;
-- (void)info:(NSString *)msg 
-      inFile:(NSString *)fileName 
+- (void)info:(NSString *)msg
+      inFile:(NSString *)fileName
       inLine:(int)lineNumber;
-- (void)debug:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)debug:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber;
-- (void)warn:(NSString *)msg 
-      inFile:(NSString *)fileName 
+- (void)warn:(NSString *)msg
+      inFile:(NSString *)fileName
       inLine:(int)lineNumber;
-- (void)error:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)error:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber;
-- (void)trace0:(NSString *)msg 
-       inFile:(NSString *)fileName 
-       inLine:(int)lineNumber;
-- (void)fatal:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)trace0:(NSString *)msg
+        inFile:(NSString *)fileName
+        inLine:(int)lineNumber;
+- (void)fatal:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber;
 
-+ (GRLogger *)sharedGRLogger;
-+ (NSString *)levelName:(GRLoggerLevel)level;
 
 @end

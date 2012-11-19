@@ -1,9 +1,18 @@
+//
+//  GRLogger.h
+//  GRLogger
+//
+//  Created by AnkyHe, gerystudio@gmail.com on 12-5-28.
+//  Copyright (c) 2012 Gery Studio. All rights reserved.
+//
+
+#import <pthread.h> // for pthread_rwlock_t
 #import "GRLogger.h"
 
-
-#define GRLOGGER_EXIT(x) exit(x)
-
-static int const kPTHREAD_RELATED_EXIT = 1;
+/* Failure process for pthread rwlock lock/unlock */
+static int const kPTHREAD_RELATED_EXIT = 234;
+#define GRLOGGER_EXIT(x) while(0){exit(x);} // do nothing
+/* END */
 
 static GRLogger *gLogger = nil;
 
@@ -11,54 +20,54 @@ static GRLogger *gLogger = nil;
 - (id)initWithLogLevel:(GRLoggerLevelSetting)levelSetting;
 @end
 
-@implementation GRLogger
+@implementation GRLogger {
+    pthread_rwlock_t _logLevelRWLock;
+}
 
-#pragma -
-#pragma mark Singleton
+@synthesize logLevelSetting = _logLevelSetting;
 
+#pragma mark - Singleton
 + (GRLogger *)sharedGRLogger
 {
-  static dispatch_once_t once;
-  dispatch_once(&once, ^{
-    gLogger = [[super allocWithZone:NULL]init];
-  });
-  return gLogger;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        gLogger = [[super allocWithZone:NULL]init];
+    });
+    return gLogger;
 }
 
 + (id)allocWithZone:(NSZone *)zone
 {
 #if !__has_feature(objc_arc)
-  return [[self sharedGRLogger] retain];
-#else 
-  return [self sharedGRLogger];
+    return [[self sharedGRLogger] retain];
+#else
+    return [self sharedGRLogger];
 #endif
 }
 - (id)copyWithZone:(NSZone *)zone
 {
-  return self;
+    return self;
 }
 
 #if ! __has_feature(objc_arc)
 - (id)retain
 {
-  return self;
+    return self;
 }
 
 - (NSUInteger)retainCount
 {
-  return NSUIntegerMax;
+    return NSUIntegerMax;
 }
 
 - (oneway void)release {}
 
 - (id)autorelease {
-  return self;
+    return self;
 }
 #endif
 
-#pragma -
-#pragma mark Class Method
-
+#pragma mark - Class Methods
 + (NSString *)levelName:(GRLoggerLevel)level {
 	switch (level) {
 		case kSLL_TINY:    return @"TINY";break;
@@ -69,24 +78,22 @@ static GRLogger *gLogger = nil;
 		case kSLL_DEBUG:   return @"DEBUG";break;
 		case kSLL_WARNING: return @"WARN";break;
 		case kSLL_ERROR:   return @"ERROR";break;
-    case kSLL_TRACE0:  return @"TRACE0";break;
+        case kSLL_TRACE0:  return @"TRACE0";break;
 		case kSLL_FATAL:   return @"FATAL";break;
-		default:          return @"NOLEVE"; break;
+		default:           return @"NOLEVE"; break;
 	}
 }
 
-#pragma mark -
-#pragma mark Method init
-
+#pragma mark - Method init
 - (id)initWithLogLevel:(GRLoggerLevelSetting)levelSetting
 {
 	if ((self = [super init])) {
-    logLevelSetting_ = levelSetting;
-    if (pthread_rwlock_init(&logLevelRWLock_, NULL)) {
-      // error
-      NSLog(@"Fail to init rwlock in GRLogger");
-      GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
-    }
+        _logLevelSetting = levelSetting;
+        if (pthread_rwlock_init(&_logLevelRWLock, NULL)) {
+            // error
+            NSLog(@"Fail to init rwlock in GRLogger");
+            GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+        }
 	}
 	return self;
 }
@@ -99,124 +106,114 @@ static GRLogger *gLogger = nil;
 
 - (void)dealloc
 {
-  if (pthread_rwlock_destroy(&logLevelRWLock_)) {
-    // error
-    NSLog(@"Fail to destroy rwlock in GRLogger");
-    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
-  }
+    if (pthread_rwlock_destroy(&_logLevelRWLock)) {
+        // error
+        NSLog(@"Fail to destroy rwlock in GRLogger");
+        GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+    }
 #if !__has_feature(objc_arc)
-  [super dealloc];
+    [super dealloc];
 #endif
 }
 
-
-
 - (GRLoggerLevelSetting)logLevelSetting
 {
-  GRLoggerLevelSetting ret = kSLLS_DEFAULT;
-  if(pthread_rwlock_rdlock(&logLevelRWLock_)) {
-    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
-  }
-  ret = logLevelSetting_;
-  if (pthread_rwlock_unlock(&logLevelRWLock_)) {
-    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
-  }
-  return ret;
+    GRLoggerLevelSetting ret = kSLLS_DEFAULT;
+    if(pthread_rwlock_rdlock(&_logLevelRWLock)) {
+        GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+    }
+    ret = _logLevelSetting;
+    if (pthread_rwlock_unlock(&_logLevelRWLock)) {
+        GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+    }
+    return ret;
 }
 
 - (void)setLogLevelSetting:(GRLoggerLevelSetting)logLevelSetting
 {
-  if (pthread_rwlock_wrlock(&logLevelRWLock_)) {
-    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
-  }
-  if (logLevelSetting == kSLLS_ALL || logLevelSetting == kSLLS_MINOR ||
-      logLevelSetting == kSLLS_MAJOR ||
-      logLevelSetting == kSLLS_NONE || logLevelSetting == kSLLS_DEFAULT) {
-    logLevelSetting_ = logLevelSetting; 
-  } else {
-    logLevelSetting_ = kSLLS_DEFAULT;
-  }
-  if (pthread_rwlock_unlock(&logLevelRWLock_)) {
-    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
-  }
+    if (pthread_rwlock_wrlock(&_logLevelRWLock)) {
+        GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+    }
+    if (logLevelSetting == kSLLS_ALL || logLevelSetting == kSLLS_MINOR ||
+        logLevelSetting == kSLLS_MAJOR ||
+        logLevelSetting == kSLLS_NONE || logLevelSetting == kSLLS_DEFAULT) {
+        _logLevelSetting = logLevelSetting;
+    } else {
+        _logLevelSetting = kSLLS_DEFAULT;
+    }
+    if (pthread_rwlock_unlock(&_logLevelRWLock)) {
+        GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
+    }
 }
 
-- (void)resetLogLevelSetting 
+- (void)resetLogLevelSetting
 {
-  [self setLogLevelSetting:kSLLS_DEFAULT];
+    [self setLogLevelSetting:kSLLS_DEFAULT];
 }
 
-#pragma mark -
-#pragma mark Method
-
-- (void)log:(NSString *)msg 
+#pragma mark - Member Methods
+- (void)log:(NSString *)msg
   withLevel:(GRLoggerLevel)level
-     inFile:(NSString *)fileName 
+     inFile:(NSString *)fileName
      inLine:(int)lineNumber
 {
-  if(pthread_rwlock_rdlock(&logLevelRWLock_)) {
-    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
-  }
-	if (level > logLevelSetting_)	{
+    if ((NSUInteger)level > (NSUInteger)self.logLevelSetting)	{
 		NSLog(@"FILE:%@ LINE:%d [%@] %@", fileName, lineNumber,
-          [GRLogger levelName:level], msg);
+              [GRLogger levelName:level], msg);
 	}
-  if (pthread_rwlock_unlock(&logLevelRWLock_)) {
-    GRLOGGER_EXIT(kPTHREAD_RELATED_EXIT);
-  }
 }
 
-- (void)enter:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)enter:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber
 {
 	[self log:msg withLevel:kSLL_ENTER inFile:fileName inLine:lineNumber];
 }
 
-- (void)retrn:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)retrn:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber
 {
 	[self log:msg withLevel:kSLL_RETURN inFile:fileName inLine:lineNumber];
 }
 
-- (void)info:(NSString *)msg 
-      inFile:(NSString *)fileName 
+- (void)info:(NSString *)msg
+      inFile:(NSString *)fileName
       inLine:(int)lineNumber
 {
 	[self log:msg withLevel:kSLL_INFO inFile:fileName inLine:lineNumber];
 }
 
-- (void)debug:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)debug:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber
 {
 	[self log:msg withLevel:kSLL_DEBUG inFile:fileName inLine:lineNumber];
 }
 
-- (void)warn:(NSString *)msg 
-      inFile:(NSString *)fileName 
+- (void)warn:(NSString *)msg
+      inFile:(NSString *)fileName
       inLine:(int)lineNumber
 {
 	[self log:msg withLevel:kSLL_WARNING inFile:fileName inLine:lineNumber];
 }
 
-- (void)error:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)error:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber
 {
 	[self log:msg withLevel:kSLL_ERROR inFile:fileName inLine:lineNumber];
 }
 
-- (void)trace0:(NSString *)msg 
-       inFile:(NSString *)fileName 
-       inLine:(int)lineNumber
+- (void)trace0:(NSString *)msg
+        inFile:(NSString *)fileName
+        inLine:(int)lineNumber
 {
-  [self log:msg withLevel:kSLL_TRACE0 inFile:fileName inLine:lineNumber];   
+    [self log:msg withLevel:kSLL_TRACE0 inFile:fileName inLine:lineNumber];
 }
 
-- (void)fatal:(NSString *)msg 
-       inFile:(NSString *)fileName 
+- (void)fatal:(NSString *)msg
+       inFile:(NSString *)fileName
        inLine:(int)lineNumber
 {
 	[self log:msg withLevel:kSLL_FATAL inFile:fileName inLine:lineNumber];
