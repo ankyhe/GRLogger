@@ -27,6 +27,7 @@ inLine:__LINE__]; return (returnValue)
 #define RETURN(returnValue, format, ...) [[GRLogger sharedGRLogger] retrn:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]; return (returnValue)
+
 #define INFO(format, ...) [[GRLogger sharedGRLogger] info:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]
@@ -86,6 +87,9 @@ inLine:__LINE__];}
 
 #endif // __SELF_DEFING_CLOSEGRLOGGER__
 
+/*!
+ @enum GROutputLevel
+ */
 typedef enum GROutputLevel : NSUInteger {
 	GROutputLevelTiny    = 10,
 	GROutputLevelDetail  = 20,
@@ -99,19 +103,33 @@ typedef enum GROutputLevel : NSUInteger {
 	GROutputLevelFatal   = 80
 } GROutputLevel;
 
+/*!
+   @enum GRLoggerLevel
+ */
 typedef enum GRLoggerLevel : NSUInteger {
-	GRLoggerLevelAll     = 0, // should be smaller than all GRLoggerLevel
-	GRLoggerLevelMajor   = 45, // should be larger than SLL_DEBUG
+	GRLoggerLevelAll     = 0,
+	GRLoggerLevelMajor   = 45,
     GRLoggerLevelMinor   = 65,
-	GRLoggerLevelNone    = 1000, // should be larger than all
-    GRLoggerLevelDefault = GRLoggerLevelMajor // SLLS_DEFAULT = SLLS_MAJOR
+	GRLoggerLevelNone    = 1000,
+    GRLoggerLevelDefault = GRLoggerLevelMajor
 } GRLoggerLevel;
 
+/*!
+   GRLogger is logger class for logging in iOS
+ */
 @interface GRLogger : NSObject
 
+/*!
+   loggerLevel denotes logging level
+ */
 @property (atomic, assign) GRLoggerLevel loggerLevel;
 
+/*!
+   @function sharedGRLogger returns a singleton instance
+   @return a singleton GRLogger instance
+ */
 + (GRLogger *)sharedGRLogger;
+
 
 - (void)log:(NSString *)msg
   withLevel:(GROutputLevel)level
