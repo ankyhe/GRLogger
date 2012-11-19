@@ -45,7 +45,7 @@ inLine:__LINE__]
 #define FATAL(format, ...) [[GRLogger sharedGRLogger] fatal:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__]
-#define SETLOGLEVEL(level) [[GRLogger sharedGRLogger] setLogLevelSetting: level]
+#define SETLOGLEVEL(level) [[GRLogger sharedGRLogger] setLoggerLevel: level]
 
 #else // defined __SELF_DEFING_CLOSEGRLOGGER__
 #define LOG(level, format, ...) while(0) {[[GRLogger sharedGRLogger] log:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
@@ -82,39 +82,39 @@ inLine:__LINE__];}
 #define FATAL(format, ...) while(0) {[[GRLogger sharedGRLogger] fatal:[NSString stringWithFormat:(format), ##__VA_ARGS__] \
 inFile:[[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
 inLine:__LINE__];}
-#define SETLOGLEVEL(level) while(0) {[[GRLogger sharedGRLogger] setLogLevelSetting: level];}
+#define SETLOGLEVEL(level) while(0) {[[GRLogger sharedGRLogger] setLoggerLevel: level];}
 
 #endif // __SELF_DEFING_CLOSEGRLOGGER__
 
-typedef enum GRLoggerLevel : NSUInteger {
-	kSLL_TINY    = 10,
-	kSLL_DETAIL  = 20,
-	kSLL_ENTER   = 30,
-	kSLL_RETURN  = 31,
-	kSLL_DEBUG   = 40,
-	kSLL_INFO    = 50,
-	kSLL_WARNING = 60,
-	kSLL_ERROR   = 70,
-    kSLL_TRACE0  = 75,
-	kSLL_FATAL   = 80
-} GRLoggerLevel;
+typedef enum GROutputLevel : NSUInteger {
+	GROutputLevelTiny    = 10,
+	GROutputLevelDetail  = 20,
+	GROutputLevelEnter   = 30,
+	GROutputLevelReturn  = 31,
+	GROutputLevelDebug   = 40,
+	GROutputLevelInfo    = 50,
+	GROutputLevelWarning = 60,
+	GROutputLevelError   = 70,
+    GROutputLevelTrace0  = 75,
+	GROutputLevelFatal   = 80
+} GROutputLevel;
 
-typedef enum GRLoggerLevelSetting : NSUInteger {
-	kSLLS_ALL = 0, // should be smaller than all GRLoggerLevel
-	kSLLS_MAJOR = 45, // should be larger than SLL_DEBUG
-    kSLLS_MINOR = 65,
-	kSLLS_NONE = 1000, // should be larger than all
-    kSLLS_DEFAULT = kSLLS_MAJOR // SLLS_DEFAULT = SLLS_MAJOR
-} GRLoggerLevelSetting;
+typedef enum GRLoggerLevel : NSUInteger {
+	GRLoggerLevelAll     = 0, // should be smaller than all GRLoggerLevel
+	GRLoggerLevelMajor   = 45, // should be larger than SLL_DEBUG
+    GRLoggerLevelMinor   = 65,
+	GRLoggerLevelNone    = 1000, // should be larger than all
+    GRLoggerLevelDefault = GRLoggerLevelMajor // SLLS_DEFAULT = SLLS_MAJOR
+} GRLoggerLevel;
 
 @interface GRLogger : NSObject
 
-@property (atomic, assign) GRLoggerLevelSetting logLevelSetting;
+@property (atomic, assign) GRLoggerLevel loggerLevel;
 
 + (GRLogger *)sharedGRLogger;
 
 - (void)log:(NSString *)msg
-  withLevel:(GRLoggerLevel)level
+  withLevel:(GROutputLevel)level
      inFile:(NSString *)fileName
      inLine:(int)lineNumber;
 
@@ -124,12 +124,12 @@ typedef enum GRLoggerLevelSetting : NSUInteger {
 - (void)retrn:(NSString *)msg
        inFile:(NSString *)fileName
        inLine:(int)lineNumber;
-- (void)info:(NSString *)msg
-      inFile:(NSString *)fileName
-      inLine:(int)lineNumber;
 - (void)debug:(NSString *)msg
        inFile:(NSString *)fileName
        inLine:(int)lineNumber;
+- (void)info:(NSString *)msg
+      inFile:(NSString *)fileName
+      inLine:(int)lineNumber;
 - (void)warn:(NSString *)msg
       inFile:(NSString *)fileName
       inLine:(int)lineNumber;

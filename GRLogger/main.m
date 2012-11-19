@@ -35,11 +35,11 @@ int foo()
 int main(int argc, char *argv[])
 {
   @autoreleasepool {
-    SETLOGLEVEL(kSLLS_ALL);
+    SETLOGLEVEL(GRLoggerLevelAll);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
       foo();
     });
-    SETLOGLEVEL(kSLLS_ALL);
+    SETLOGLEVEL(GRLoggerLevelDefault);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
       TestClass *tc = [[TestClass alloc]init];
       int ret = [tc bar];
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     WARN(@"warning");
     ERROR(@"error");
     FATAL(@"fatal");
-    LOG(kSLL_TINY, @"tiny");
+    LOG(GROutputLevelDetail, @"tiny");
     TRACE0(@"Ready to start");
     
     return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
