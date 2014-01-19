@@ -8,7 +8,8 @@ to public.
 License: MIT
 
 Install:<br>
-  (1) Add GRLogger.h, GRLogger.m and License into your project
+  (1) Add GRLogger.h, GRLogger.m and License into your project or <br>
+      pod 'GRLogger',       '~> 1.0.5' <br>
   (2) Sample -- Please refer to main.m  
     
     #import "GRLogger.h"
