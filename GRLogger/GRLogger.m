@@ -19,7 +19,7 @@ static GRLogger *gLogger = nil;
 
 static NSString * threadName()
 {
-    return (dispatch_get_current_queue() == dispatch_get_main_queue() ?  @"Main " : @"Other");
+    return ([NSThread isMainThread] ? @"Main " : @"Other");
 
 }
 
